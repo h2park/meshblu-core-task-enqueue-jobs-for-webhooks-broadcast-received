@@ -1,10 +1,11 @@
-_          = require 'lodash'
 redis      = require 'fakeredis'
 Datastore  = require 'meshblu-core-datastore'
 JobManager = require 'meshblu-core-job-manager'
 mongojs    = require 'mongojs'
 RedisNS    = require '@octoblu/redis-ns'
 uuid       = require 'uuid'
+{beforeEach, context, describe, it} = global
+{expect} = require 'chai'
 EnqueueJobsForWebhooksBroadcastReceived = require '../'
 
 describe 'EnqueueJobsForWebhooksBroadcastReceived', ->
