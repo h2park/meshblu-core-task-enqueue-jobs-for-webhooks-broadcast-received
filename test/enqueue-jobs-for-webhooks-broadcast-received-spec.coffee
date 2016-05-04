@@ -76,6 +76,7 @@ describe 'EnqueueJobsForWebhooksBroadcastReceived', ->
             metadata:
               auth: {uuid: 'subscriber'}
               route: [{type: 'broadcast.received', from: 'subscriber', to: 'subscriber'}]
+              forwardedRoutes: []
               responseId: 'its-electric'
             rawData: '{}'
 
@@ -93,8 +94,7 @@ describe 'EnqueueJobsForWebhooksBroadcastReceived', ->
         it 'should enqueue a job to deliver the webhook', (done) ->
           @jobManager.getRequest ['request'], (error, request) =>
             return done error if error?
-            delete request?.metadata?.responseId
-            expect(request).to.deep.equal {
+            expect(request).to.containSubset {
               metadata:
                 jobType: 'DeliverWebhook'
                 auth:
@@ -103,6 +103,7 @@ describe 'EnqueueJobsForWebhooksBroadcastReceived', ->
                 toUuid: 'subscriber'
                 messageType: 'broadcast.received'
                 route: [{type: "broadcast.received", from: "subscriber", to: "subscriber"}]
+                forwardedRoutes: []
                 options:
                   type:   'webhook'
                   url:    'https://google.com'
